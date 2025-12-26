@@ -1,26 +1,92 @@
-# C++ Mock Operating System (OOP Showcase)
+# MockOS
 
-### Overview
-This project is a modular, object-oriented simulation of a file system and command shell, built from scratch in **C++14**. It simulates core operating system functionalities—including file creation, editing, concatenation, and deletion—while enforcing strict architectural separation between interfaces and implementations.
+MockOS is a C++ implementation of a mock operating system that simulates a file system and command shell. It allows users to create, manage, and interact with files using a modular command-line interface. This project demonstrates advanced object-oriented architecture by implementing multiple Design Patterns to decouple the file system logic from the user interface.
 
-The primary goal of this system was to implement robust **Design Patterns** to handle complex dependencies and extendability, rather than just writing a functional script.
+## Features
 
-### Key Design Patterns Implemented
-This project heavily utilizes behavioral and creational design patterns to decouple components:
+* **File System Management:** Create, delete, read, and write files within a virtual environment.
+* **Support for Multiple File Types:** Handles both plain text and image files using specialized visitor algorithms.
+* **Password Protection:** Secure file access implemented via the Proxy pattern.
+* **Macro Commands:** Support for complex operations like "Rename" (Copy + Remove) and "Touch-Edit" (Create + Append).
+* **Design Pattern Implementation:**
+    * **Command Pattern** for extensible shell commands.
+    * **Visitor Pattern** for file rendering and metadata retrieval.
+    * **Composite Pattern** for chaining multiple commands.
+    * **Strategy Pattern** for dynamic argument parsing.
 
-* **Command Pattern:** Encapsulates user requests (like `cat`, `ls`, `rm`) as objects (`AbstractCommand`), allowing for parameterization of the `CommandPrompt` invoker.
-* **Visitor Pattern:** Separates algorithms from object structures. The `BasicDisplayVisitor` can traverse different file types (`TextFile`, `ImageFile`) to render them without modifying their class logic.
-* **Strategy Pattern:** Enables interchangeable parsing algorithms. `TouchEditParsingStrategy` allows the system to dynamically switch how it interprets user input for complex macro-commands.
-* **Abstract Factory Pattern:** Provides an interface `AbstractFileFactory` to create families of related file objects without specifying their concrete classes.
-* **Prototype Pattern:** Implements a `clone()` method in `AbstractFile`, allowing efficient duplication of file objects at runtime.
+## Getting Started
 
-### System Architecture
-* **File System:** Manages the lifecycle of `AbstractFile` objects, supporting read/write streams (`vector<char>`) and password protection.
-* **Command Shell:** A continuous loop that parses user input, maps strings to concrete `Command` objects, and executes them against the file system.
-* **Error Handling:** A robust custom error enumeration (`ErrorTypes`) handles edge cases like allocation failures, circular dependencies, and permission denials.
+### Prerequisites
 
-### Technologies Used
-* **Language:** C++14
-* **Build System:** CMake
-* **Testing:** GoogleTest (Unit Testing Framework)
-* **Version Control:** Git
+* CMake (version 3.20 or higher)
+* C++14 compatible compiler (GCC, Clang, or MSVC)
+
+### Building the Project
+
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/ekelenna1/C-MockOs.git](https://github.com/ekelenna1/C-MockOs.git)
+    cd C-MockOs
+    ```
+
+2.  Create a build directory and navigate to it:
+    ```bash
+    mkdir build
+    cd build
+    ```
+
+3.  Generate the build files with CMake:
+    ```bash
+    cmake ..
+    ```
+
+4.  Build the project:
+    ```bash
+    cmake --build .
+    ```
+
+### Running the Tests
+
+To run the unit tests and verify system integrity, execute the following command from the `build` directory:
+
+```bash
+ctest
+```
+
+### Running the MockOS
+After building the project, you can run the MockOS shell:
+```bash
+./src/Studio21
+```
+
+### Usage
+MockOS provides a command-line interface with various commands for file and system management. Here are the available commands:
+
+touch <filename> : Create a new file.
+
+ls : List all files currently in the system.
+
+ls -m : List files with detailed metadata.
+
+cat <filename> [-a] : specific file contents. Use -a to append data.
+
+ds <filename> [-d] : Display file contents (formatted). Use -d for raw data.
+
+rm <filename> : Remove a file from the system.
+
+cp <source> <destination> : Copy an existing file to a new name.
+
+rn <oldname> <newname> : Rename a file (Macro command).
+
+te <filename> : Touch and then immediately edit a file (Macro command).
+
+### Project Structure
+include/ : Header files defining the public API and interfaces.
+
+lib/ : Source files for the MockOS static library implementation.
+
+src/ : Main source files for the executable shell and lab runners.
+
+tests/ : Unit tests using the GoogleTest framework.
+
+docs/ : Documentation and studio answers.
